@@ -94,17 +94,17 @@ export default function PostDetail() {
 
         {/* Article Content */}
         <article className="prose prose-lg prose-gray max-w-none">
-          <div className="text-gray-800 leading-8 space-y-6">
+          <div className="text-gray-800 leading-8 space-y-6 text-justify">
             <PortableText 
               value={post.body}
               components={{
                 block: {
-                  normal: ({children}) => <p className="mb-6 leading-8">{children}</p>,
-                  h1: ({children}) => <h1 className="text-3xl font-bold mb-6 mt-12 leading-tight">{children}</h1>,
-                  h2: ({children}) => <h2 className="text-2xl font-semibold mb-4 mt-10 leading-tight">{children}</h2>,
-                  h3: ({children}) => <h3 className="text-xl font-semibold mb-4 mt-8 leading-tight">{children}</h3>,
+                  normal: ({children}) => <p className="mb-6 leading-8 text-justify">{children}</p>,
+                  h1: ({children}) => <h1 className="text-3xl font-bold mb-6 mt-12 leading-tight text-left">{children}</h1>,
+                  h2: ({children}) => <h2 className="text-2xl font-semibold mb-4 mt-10 leading-tight text-left">{children}</h2>,
+                  h3: ({children}) => <h3 className="text-xl font-semibold mb-4 mt-8 leading-tight text-left">{children}</h3>,
                   blockquote: ({children}) => (
-                    <blockquote className="bg-gray-50 border-l-4 border-gray-300 pl-6 pr-4 py-4 my-8 italic text-gray-700 leading-relaxed">
+                    <blockquote className="bg-gray-50 border-l-4 border-gray-300 pl-6 pr-4 py-4 my-8 italic text-gray-700 leading-relaxed text-justify">
                       {children}
                     </blockquote>
                   ),
