@@ -13,12 +13,14 @@ interface Post {
 }
 
 export function App() {
-  // (2) 必要ならここでログ
-  console.log(
-    'SANITY ENV →',
-    import.meta.env.VITE_SANITY_PROJECT_ID,
-    import.meta.env.VITE_SANITY_DATASET
-  );
+  // (2) アプリ起動時のログ
+  console.log('🚀 App component loaded');
+  console.log('Environment check:', {
+    projectId: import.meta.env.VITE_SANITY_PROJECT_ID,
+    dataset: import.meta.env.VITE_SANITY_DATASET,
+    apiVersion: import.meta.env.VITE_SANITY_API_VERSION,
+    hasToken: !!import.meta.env.VITE_SANITY_TOKEN
+  });
 
   const [posts, setPosts] = useState<Post[]>([]);
 
