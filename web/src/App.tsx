@@ -109,16 +109,14 @@ export function App() {
                           {post.title}
                         </h2>
                         
-                        <div className="flex items-center gap-2 text-sm text-gray-500">
+                        <div className="text-sm text-gray-500">
                           <time>
                             {new Date(post.publishedAt).toLocaleDateString('ja-JP', {
+                              year: 'numeric',
                               month: 'long',
-                              day: 'numeric',
-                              weekday: 'short'
+                              day: 'numeric'
                             })}
                           </time>
-                          <span>•</span>
-                          <span className="group-hover:text-blue-600 transition-colors duration-200">記事を読む</span>
                         </div>
                       </div>
                     </div>

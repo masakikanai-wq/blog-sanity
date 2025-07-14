@@ -61,8 +61,7 @@ export default function PostDetail() {
                   {new Date(post.publishedAt).toLocaleDateString('ja-JP', {
                     year: 'numeric',
                     month: 'long',
-                    day: 'numeric',
-                    weekday: 'short'
+                    day: 'numeric'
                   })}
                 </time>
               </div>
@@ -73,8 +72,7 @@ export default function PostDetail() {
                     {new Date(post._updatedAt).toLocaleDateString('ja-JP', {
                       year: 'numeric',
                       month: 'long',
-                      day: 'numeric',
-                      weekday: 'short'
+                      day: 'numeric'
                     })}
                   </time>
                 </div>
