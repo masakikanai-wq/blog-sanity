@@ -101,8 +101,9 @@ export function App() {
 
         {/* Author Profile */}
         <div className="mt-16 pt-12 border-t border-gray-200">
-          <div className="bg-gray-50 rounded-lg p-8">
-            <div className="flex items-start gap-6">
+          <div className="bg-gray-50 rounded-lg p-6 md:p-8">
+            {/* Desktop layout: side by side */}
+            <div className="hidden md:flex items-start gap-6">
               <img 
                 src="https://avatars.githubusercontent.com/u/58135006?v=4" 
                 alt="かないまさきのプロフィール画像"
@@ -126,6 +127,32 @@ export function App() {
                     X (Twitter)
                   </a>
                 </div>
+              </div>
+            </div>
+
+            {/* Mobile layout: centered image, content below */}
+            <div className="md:hidden text-center">
+              <img 
+                src="https://avatars.githubusercontent.com/u/58135006?v=4" 
+                alt="かないまさきのプロフィール画像"
+                className="w-20 h-20 rounded-full object-cover mx-auto mb-4"
+              />
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">かないまさき</h3>
+              <p className="text-gray-600 mb-4 leading-relaxed">
+                クリエイティブディレクター｜ウェブ制作やコンセプト提案が得意｜バイブコーディングにドハマリ中｜30代2児の父｜日本と海外の多拠点生活するのが夢
+              </p>
+              <div className="flex justify-center">
+                <a 
+                  href="https://x.com/kanai_biz" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200"
+                >
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  </svg>
+                  X (Twitter)
+                </a>
               </div>
             </div>
           </div>
