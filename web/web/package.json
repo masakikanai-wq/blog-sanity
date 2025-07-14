@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@sanity/client": "^5.4.2",
+    "vite-plugin-prerender": "^1.0.8"
+  }
+}
