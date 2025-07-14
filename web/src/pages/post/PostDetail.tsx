@@ -7,7 +7,14 @@ interface Post {
   _id: string;
   title: string;
   publishedAt: string;
+  _updatedAt: string;
   body: any[];
+  mainImage?: {
+    asset: {
+      url: string;
+    };
+    alt?: string;
+  };
 }
 
 export default function PostDetail() {
@@ -19,7 +26,13 @@ export default function PostDetail() {
       sanity
         .fetch<Post>(
           `*[_type == "post" && slug.current == $slug][0]{
-            _id, title, publishedAt, body
+            _id, title, publishedAt, _updatedAt, body,
+            mainImage{
+              asset->{
+                url
+              },
+              alt
+            }
           }`,
           { slug: id }
         )
@@ -38,14 +51,47 @@ export default function PostDetail() {
         {/* Header */}
         <header className="mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-6 leading-tight">{post.title}</h1>
-          <time className="text-gray-500 text-sm">
-            {new Date(post.publishedAt).toLocaleDateString('ja-JP', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-              weekday: 'short'
-            })}
-          </time>
+          
+          {/* Date info */}
+          <div className="text-gray-500 text-sm mb-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4">
+              <div>
+                <span className="font-medium">公開日：</span>
+                <time>
+                  {new Date(post.publishedAt).toLocaleDateString('ja-JP', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    weekday: 'short'
+                  })}
+                </time>
+              </div>
+              {post._updatedAt !== post.publishedAt && (
+                <div>
+                  <span className="font-medium">更新日：</span>
+                  <time>
+                    {new Date(post._updatedAt).toLocaleDateString('ja-JP', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                      weekday: 'short'
+                    })}
+                  </time>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Thumbnail */}
+          {post.mainImage?.asset?.url && (
+            <div className="mb-8">
+              <img 
+                src={post.mainImage.asset.url}
+                alt={post.mainImage.alt || post.title}
+                className="w-full h-64 md:h-80 object-cover rounded-lg shadow-sm"
+              />
+            </div>
+          )}
         </header>
 
         {/* Article Content */}
