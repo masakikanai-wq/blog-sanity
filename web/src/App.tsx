@@ -131,14 +131,16 @@ export function App() {
             </div>
 
             {/* Mobile layout: centered image, content below */}
-            <div className="md:hidden text-center">
-              <img 
-                src="https://avatars.githubusercontent.com/u/58135006?v=4" 
-                alt="かないまさきのプロフィール画像"
-                className="w-20 h-20 rounded-full object-cover mx-auto mb-4"
-              />
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">かないまさき</h3>
-              <p className="text-gray-600 mb-4 leading-relaxed">
+            <div className="md:hidden">
+              <div className="text-center">
+                <img 
+                  src="https://avatars.githubusercontent.com/u/58135006?v=4" 
+                  alt="かないまさきのプロフィール画像"
+                  className="w-20 h-20 rounded-full object-cover mx-auto mb-4"
+                />
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">かないまさき</h3>
+              </div>
+              <p className="text-gray-600 mb-4 leading-relaxed text-justify">
                 クリエイティブディレクター｜ウェブ制作やコンセプト提案が得意｜バイブコーディングにドハマリ中｜30代2児の父｜日本と海外の多拠点生活するのが夢
               </p>
               <div className="flex justify-center">
