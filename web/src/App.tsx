@@ -1,7 +1,6 @@
 // src/App.tsx
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { PortableText } from '@portabletext/react';
 import { sanity } from './sanity';
 
 // (1) 型定義をここで追加
