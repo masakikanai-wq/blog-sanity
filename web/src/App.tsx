@@ -10,6 +10,12 @@ interface Post {
   slug:       string;
   publishedAt:string;   // ISO 文字列
   body:       string[]; // 抜粋としてテキスト配列
+  mainImage?: {
+    asset: {
+      url: string;
+    };
+    alt?: string;
+  };
 }
 
 export function App() {
@@ -40,7 +46,13 @@ export function App() {
           title,
           "slug": slug.current,
           publishedAt,
-          body[0..100]  // 抜粋
+          body[0..100],  // 抜粋
+          mainImage{
+            asset->{
+              url
+            },
+            alt
+          }
         }
       `)
       .then((posts) => {
@@ -58,7 +70,7 @@ export function App() {
         {/* Header */}
         <header className="py-12 border-b border-gray-100">
           <div className="text-center">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">My Blog</h1>
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">Kanai Blog</h1>
             <p className="text-gray-600">Latest thoughts and stories</p>
           </div>
         </header>
@@ -73,20 +85,42 @@ export function App() {
                     to={`/post/${post.slug}`} 
                     className="group block"
                   >
-                    <h2 className="text-xl font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-200 mb-3 leading-tight">
-                      {post.title}
-                    </h2>
-                    
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
-                      <time>
-                        {new Date(post.publishedAt).toLocaleDateString('ja-JP', {
-                          month: 'long',
-                          day: 'numeric',
-                          weekday: 'short'
-                        })}
-                      </time>
-                      <span>•</span>
-                      <span className="group-hover:text-blue-600 transition-colors duration-200">記事を読む</span>
+                    <div className="flex gap-4 items-start">
+                      {/* Thumbnail */}
+                      <div className="flex-shrink-0 w-28 h-16 md:w-36 md:h-20 bg-gray-200 rounded-lg overflow-hidden">
+                        {post.mainImage?.asset?.url ? (
+                          <img 
+                            src={post.mainImage.asset.url}
+                            alt={post.mainImage.alt || post.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                            <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Content */}
+                      <div className="flex-1 min-w-0">
+                        <h2 className="text-lg md:text-xl font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-200 mb-2 leading-tight">
+                          {post.title}
+                        </h2>
+                        
+                        <div className="flex items-center gap-2 text-sm text-gray-500">
+                          <time>
+                            {new Date(post.publishedAt).toLocaleDateString('ja-JP', {
+                              month: 'long',
+                              day: 'numeric',
+                              weekday: 'short'
+                            })}
+                          </time>
+                          <span>•</span>
+                          <span className="group-hover:text-blue-600 transition-colors duration-200">記事を読む</span>
+                        </div>
+                      </div>
                     </div>
                   </Link>
                 </article>
