@@ -27,7 +27,8 @@ export function App() {
     console.log('Environment variables:', {
       projectId: import.meta.env.VITE_SANITY_PROJECT_ID,
       dataset: import.meta.env.VITE_SANITY_DATASET,
-      apiVersion: import.meta.env.VITE_SANITY_API_VERSION
+      apiVersion: import.meta.env.VITE_SANITY_API_VERSION,
+      hasToken: !!import.meta.env.VITE_SANITY_TOKEN
     });
 
     sanity
