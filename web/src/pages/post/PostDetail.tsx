@@ -66,15 +66,26 @@ export default function PostDetail() {
         </article>
 
         {/* Navigation */}
-        <footer className="mt-16 pt-8 border-t border-gray-100">
+        <div className="mt-16 pt-8 border-t border-gray-100">
           <Link 
             to="/" 
             className="inline-flex items-center text-blue-600 hover:text-blue-700 transition-colors duration-200"
           >
             ← 記事一覧に戻る
           </Link>
-        </footer>
+        </div>
       </div>
+
+      {/* Footer */}
+      <footer className="bg-gray-50 border-t border-gray-200 mt-20">
+        <div className="max-w-2xl mx-auto px-4 md:px-6 py-12">
+          <div className="text-center">
+            <p className="text-gray-500 text-sm">
+              © Masaki KANAI
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

@@ -131,6 +131,17 @@ export function App() {
           </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="bg-gray-50 border-t border-gray-200 mt-20">
+        <div className="max-w-2xl mx-auto px-4 md:px-6 py-12">
+          <div className="text-center">
+            <p className="text-gray-500 text-sm">
+              © Masaki KANAI
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
