@@ -23,6 +23,13 @@ export function App() {
   const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
+    // デバッグ用ログ
+    console.log('Environment variables:', {
+      projectId: import.meta.env.VITE_SANITY_PROJECT_ID,
+      dataset: import.meta.env.VITE_SANITY_DATASET,
+      apiVersion: import.meta.env.VITE_SANITY_API_VERSION
+    });
+
     sanity
       .fetch<Post[]>(`
         *[_type == "post"] | order(publishedAt desc){
@@ -33,8 +40,13 @@ export function App() {
           body[0..100]  // 抜粋
         }
       `)
-      .then(setPosts)
-      .catch(console.error);
+      .then((posts) => {
+        console.log('Fetched posts:', posts);
+        setPosts(posts);
+      })
+      .catch((error) => {
+        console.error('Sanity fetch error:', error);
+      });
   }, []);
 
   return (
