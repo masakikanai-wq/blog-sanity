@@ -103,7 +103,26 @@ export default function PostDetail() {
                   h1: ({children}) => <h1 className="text-3xl font-bold mb-6 mt-12 leading-tight">{children}</h1>,
                   h2: ({children}) => <h2 className="text-2xl font-semibold mb-4 mt-10 leading-tight">{children}</h2>,
                   h3: ({children}) => <h3 className="text-xl font-semibold mb-4 mt-8 leading-tight">{children}</h3>,
-                }
+                  blockquote: ({children}) => (
+                    <blockquote className="bg-gray-50 border-l-4 border-gray-300 pl-6 pr-4 py-4 my-8 italic text-gray-700 leading-relaxed">
+                      {children}
+                    </blockquote>
+                  ),
+                },
+                marks: {
+                  strong: ({children}) => <strong className="font-semibold">{children}</strong>,
+                  em: ({children}) => <em className="italic">{children}</em>,
+                  link: ({children, value}) => (
+                    <a 
+                      href={value.href} 
+                      className="text-blue-600 hover:text-blue-700 underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {children}
+                    </a>
+                  ),
+                },
               }}
             />
           </div>
