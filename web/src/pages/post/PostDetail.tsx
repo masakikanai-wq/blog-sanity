@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { sanity } from '../../sanity';
 import { PortableText } from '@portabletext/react';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 interface Post {
   _id: string;
@@ -107,6 +109,25 @@ export default function PostDetail() {
                     <blockquote className="bg-gray-50 border-l-4 border-gray-300 pl-6 pr-4 py-4 my-8 italic text-gray-700 leading-relaxed text-justify">
                       {children}
                     </blockquote>
+                  ),
+                },
+                types: {
+                  code: ({value}) => (
+                    <div className="my-8">
+                      <SyntaxHighlighter
+                        language={value.language || 'text'}
+                        style={vscDarkPlus}
+                        customStyle={{
+                          borderRadius: '8px',
+                          fontSize: '14px',
+                          lineHeight: '1.5',
+                        }}
+                        showLineNumbers={true}
+                        wrapLongLines={true}
+                      >
+                        {value.code}
+                      </SyntaxHighlighter>
+                    </div>
                   ),
                 },
                 marks: {
