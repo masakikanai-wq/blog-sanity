@@ -1,4 +1,5 @@
 import {defineType, defineArrayMember} from 'sanity'
+import {codeInput} from '@sanity/code-input'
 
 /**
  * This is the schema definition for the rich text fields used for
@@ -62,6 +63,39 @@ export default defineType({
     defineArrayMember({
       type: 'image',
       options: {hotspot: true},
+    }),
+    defineArrayMember({
+      type: 'object',
+      name: 'code',
+      title: 'Code Block',
+      fields: [
+        {
+          name: 'language',
+          title: 'Language',
+          type: 'string',
+          options: {
+            list: [
+              {title: 'JavaScript', value: 'javascript'},
+              {title: 'TypeScript', value: 'typescript'},
+              {title: 'React JSX', value: 'jsx'},
+              {title: 'React TSX', value: 'tsx'},
+              {title: 'HTML', value: 'html'},
+              {title: 'CSS', value: 'css'},
+              {title: 'Python', value: 'python'},
+              {title: 'Bash', value: 'bash'},
+              {title: 'JSON', value: 'json'},
+              {title: 'SQL', value: 'sql'},
+              {title: 'Text', value: 'text'},
+            ]
+          }
+        },
+        {
+          name: 'code',
+          title: 'Code',
+          type: 'text',
+          inputComponent: codeInput,
+        }
+      ]
     }),
   ],
 })
