@@ -111,6 +111,12 @@ export default function PostDetail() {
                     </blockquote>
                   ),
                 },
+                list: {
+                  bullet: ({children}) => <ul className="mb-6 pl-6 space-y-2 list-disc">{children}</ul>,
+                },
+                listItem: {
+                  bullet: ({children}) => <li className="leading-8 text-justify">{children}</li>,
+                },
                 types: {
                   code: ({value}) => (
                     <div className="my-8">
