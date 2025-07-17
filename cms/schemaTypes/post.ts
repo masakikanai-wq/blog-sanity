@@ -49,6 +49,12 @@ export default defineType({
       title: 'Body',
       type: 'blockContent',
     }),
+    defineField({
+      name: 'viewCount',
+      title: 'View Count',
+      type: 'number',
+      initialValue: 0,
+    }),
   ],
 
   preview: {

@@ -10,6 +10,7 @@ interface Post {
   slug:       string;
   publishedAt:string;   // ISO 文字列
   body:       string[]; // 抜粋としてテキスト配列
+  viewCount?: number;
   mainImage?: {
     asset: {
       url: string;
@@ -47,6 +48,7 @@ export function App() {
           "slug": slug.current,
           publishedAt,
           body[0..100],  // 抜粋
+          viewCount,
           mainImage{
             asset->{
               url
@@ -109,7 +111,7 @@ export function App() {
                           {post.title}
                         </h2>
                         
-                        <div className="text-sm text-gray-500">
+                        <div className="text-sm text-gray-500 flex items-center gap-3">
                           <time>
                             {new Date(post.publishedAt).toLocaleDateString('ja-JP', {
                               year: 'numeric',
@@ -117,6 +119,9 @@ export function App() {
                               day: 'numeric'
                             })}
                           </time>
+                          <span>
+                            {post.viewCount || 0} view{(post.viewCount || 0) !== 1 ? 's' : ''}
+                          </span>
                         </div>
                       </div>
                     </div>

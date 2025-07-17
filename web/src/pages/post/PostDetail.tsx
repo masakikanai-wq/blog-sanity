@@ -11,6 +11,7 @@ interface Post {
   publishedAt: string;
   _updatedAt: string;
   body: any[];
+  viewCount?: number;
   mainImage?: {
     asset: {
       url: string;
@@ -28,7 +29,7 @@ export default function PostDetail() {
       sanity
         .fetch<Post>(
           `*[_type == "post" && slug.current == $slug][0]{
-            _id, title, publishedAt, _updatedAt, body,
+            _id, title, publishedAt, _updatedAt, body, viewCount,
             mainImage{
               asset->{
                 url
@@ -38,10 +39,26 @@ export default function PostDetail() {
           }`,
           { slug: id }
         )
-        .then(setPost)
+        .then((fetchedPost) => {
+          if (fetchedPost) {
+            setPost(fetchedPost);
+            incrementViewCount(fetchedPost._id);
+          }
+        })
         .catch(console.error);
     }
   }, [id]);
+
+  const incrementViewCount = async (postId: string) => {
+    try {
+      await sanity
+        .patch(postId)
+        .inc({ viewCount: 1 })
+        .commit();
+    } catch (error) {
+      console.error('Failed to increment view count:', error);
+    }
+  };
 
   if (!post) {
     return <div className="p-8">Loading...</div>;
@@ -79,6 +96,9 @@ export default function PostDetail() {
                   </time>
                 </div>
               )}
+              <div className="flex items-center gap-1">
+                <span>{post.viewCount || 0} view{(post.viewCount || 0) !== 1 ? 's' : ''}</span>
+              </div>
             </div>
           </div>
 
