@@ -4,6 +4,13 @@ import { sanity } from '../../sanity';
 import { PortableText } from '@portabletext/react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import imageUrlBuilder from '@sanity/image-url';
+
+const builder = imageUrlBuilder(sanity);
+
+function urlFor(source: any) {
+  return builder.image(source);
+}
 
 interface Post {
   _id: string;
@@ -29,7 +36,16 @@ export default function PostDetail() {
       sanity
         .fetch<Post>(
           `*[_type == "post" && slug.current == $slug][0]{
-            _id, title, publishedAt, _updatedAt, body, viewCount,
+            _id, title, publishedAt, _updatedAt, viewCount,
+            body[]{
+              ...,
+              _type == "image" => {
+                ...,
+                asset->{
+                  url
+                }
+              }
+            },
             mainImage{
               asset->{
                 url
@@ -41,6 +57,7 @@ export default function PostDetail() {
         )
         .then((fetchedPost) => {
           if (fetchedPost) {
+            console.log('Fetched post data:', JSON.stringify(fetchedPost, null, 2));
             setPost(fetchedPost);
             incrementViewCount(fetchedPost._id);
           }
@@ -103,10 +120,10 @@ export default function PostDetail() {
           </div>
 
           {/* Thumbnail */}
-          {post.mainImage?.asset?.url && (
+          {post.mainImage?.asset && (
             <div className="mb-8">
               <img 
-                src={post.mainImage.asset.url}
+                src={urlFor(post.mainImage).width(800).url()}
                 alt={post.mainImage.alt || post.title}
                 className="w-full h-64 md:h-80 object-cover rounded-lg shadow-sm"
               />
@@ -155,6 +172,26 @@ export default function PostDetail() {
                       </SyntaxHighlighter>
                     </div>
                   ),
+                  image: ({value}) => {
+                    console.log('Image value:', JSON.stringify(value, null, 2));
+                    const imageUrl = urlFor(value).width(800).url();
+                    console.log('Generated image URL:', imageUrl);
+                    return (
+                      <div className="my-8">
+                        <img
+                          src={imageUrl}
+                          alt={value.alt || ''}
+                          className="w-full rounded-lg shadow-sm"
+                          onError={(e) => console.error('Image load error:', (e.target as HTMLImageElement).src)}
+                        />
+                        {value.alt && (
+                          <p className="text-center text-sm text-gray-500 mt-2 italic">
+                            {value.alt}
+                          </p>
+                        )}
+                      </div>
+                    );
+                  },
                 },
                 marks: {
                   strong: ({children}) => <strong className="font-semibold">{children}</strong>,

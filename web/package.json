@@ -13,6 +13,7 @@
   "dependencies": {
     "@portabletext/react": "^3.2.1",
     "@sanity/client": "^7.6.0",
+    "@sanity/image-url": "^1.1.0",
     "@types/react-syntax-highlighter": "^15.5.13",
     "prismjs": "^1.30.0",
     "react": "^19.1.0",
