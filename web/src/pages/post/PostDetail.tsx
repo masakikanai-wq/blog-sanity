@@ -5,6 +5,7 @@ import { PortableText } from '@portabletext/react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import imageUrlBuilder from '@sanity/image-url';
+import { Accordion } from '../../components/Accordion';
 
 const builder = imageUrlBuilder(sanity);
 
@@ -217,6 +218,13 @@ export default function PostDetail() {
                       </div>
                     );
                   },
+                  accordion: ({value}) => (
+                    <Accordion
+                      title={value.title}
+                      content={value.content}
+                      isOpen={false}
+                    />
+                  ),
                 },
                 marks: {
                   strong: ({children}) => <strong className="font-semibold">{children}</strong>,
