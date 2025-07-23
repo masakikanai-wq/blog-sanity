@@ -30,6 +30,7 @@ interface Post {
 export default function PostDetail() {
   const { id } = useParams<{ id: string }>();
   const [post, setPost] = useState<Post | null>(null);
+  const [localViewCount, setLocalViewCount] = useState<number>(0);
 
   useEffect(() => {
     if (id) {
@@ -59,7 +60,24 @@ export default function PostDetail() {
           if (fetchedPost) {
             console.log('Fetched post data:', JSON.stringify(fetchedPost, null, 2));
             setPost(fetchedPost);
-            incrementViewCount(fetchedPost._id);
+            
+            // ローカルストレージからビューカウントを取得
+            const viewKey = `post_views_${fetchedPost._id}`;
+            const storedViews = parseInt(localStorage.getItem(viewKey) || '0');
+            
+            // 初回訪問の場合のみカウントを増やす
+            const sessionKey = `post_visited_${fetchedPost._id}`;
+            if (!sessionStorage.getItem(sessionKey)) {
+              const newViewCount = storedViews + 1;
+              localStorage.setItem(viewKey, newViewCount.toString());
+              sessionStorage.setItem(sessionKey, 'true');
+              setLocalViewCount(newViewCount);
+              
+              // Sanityへの更新も試行（トークンがあれば成功）
+              incrementViewCount(fetchedPost._id);
+            } else {
+              setLocalViewCount(storedViews);
+            }
           }
         })
         .catch(console.error);
@@ -68,12 +86,19 @@ export default function PostDetail() {
 
   const incrementViewCount = async (postId: string) => {
     try {
-      await sanity
+      console.log('Attempting to increment view count for post:', postId);
+      const result = await sanity
         .patch(postId)
         .inc({ viewCount: 1 })
         .commit();
-    } catch (error) {
+      console.log('View count increment result:', result);
+    } catch (error: any) {
       console.error('Failed to increment view count:', error);
+      console.error('Error details:', {
+        message: error?.message,
+        statusCode: error?.statusCode,
+        details: error?.details
+      });
     }
   };
 
@@ -114,7 +139,7 @@ export default function PostDetail() {
                 </div>
               )}
               <div className="flex items-center gap-1">
-                <span>{post.viewCount || 0} view{(post.viewCount || 0) !== 1 ? 's' : ''}</span>
+                <span>{Math.max(post.viewCount || 0, localViewCount)} view{(Math.max(post.viewCount || 0, localViewCount)) !== 1 ? 's' : ''}</span>
               </div>
             </div>
           </div>
