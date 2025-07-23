@@ -30,6 +30,22 @@ export function App() {
   });
 
   const [posts, setPosts] = useState<Post[]>([]);
+  const [localViewCounts, setLocalViewCounts] = useState<Record<string, number>>({});
+
+  // ローカルストレージからビューカウントを取得する関数
+  const getLocalViewCount = (postId: string): number => {
+    const viewKey = `post_views_${postId}`;
+    return parseInt(localStorage.getItem(viewKey) || '0');
+  };
+
+  // 全ての記事のローカルビューカウントを更新する関数
+  const updateLocalViewCounts = () => {
+    const counts: Record<string, number> = {};
+    posts.forEach(post => {
+      counts[post._id] = getLocalViewCount(post._id);
+    });
+    setLocalViewCounts(counts);
+  };
 
   useEffect(() => {
     // デバッグ用ログ
@@ -65,6 +81,23 @@ export function App() {
         console.error('Sanity fetch error:', error);
       });
   }, []);
+
+  // 記事が読み込まれた後にローカルビューカウントを更新
+  useEffect(() => {
+    if (posts.length > 0) {
+      updateLocalViewCounts();
+    }
+  }, [posts]);
+
+  // ページがフォーカスされたときにローカルビューカウントを更新
+  useEffect(() => {
+    const handleFocus = () => {
+      updateLocalViewCounts();
+    };
+
+    window.addEventListener('focus', handleFocus);
+    return () => window.removeEventListener('focus', handleFocus);
+  }, [posts]);
 
   return (
     <div className="min-h-screen bg-white">
@@ -120,7 +153,7 @@ export function App() {
                             })}
                           </time>
                           <span>
-                            {post.viewCount || 0} view{(post.viewCount || 0) !== 1 ? 's' : ''}
+                            {Math.max(post.viewCount || 0, localViewCounts[post._id] || 0)} view{(Math.max(post.viewCount || 0, localViewCounts[post._id] || 0)) !== 1 ? 's' : ''}
                           </span>
                         </div>
                       </div>
